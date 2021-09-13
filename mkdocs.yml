@@ -1,0 +1,8 @@
+site_name: The Sentence Encoder Diaries
+theme:
+  name: material
+  palette:
+    primary: white
+nav:
+  - Home: index.md
+  - "Day 01: The Big Picture": chapter-01
