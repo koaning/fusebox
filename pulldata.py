@@ -19,10 +19,12 @@ for name, subset in [("tweet_eval", "emoji"), ("tweet_eval", "emotion"), ("tweet
     df.to_csv(f"data/{name}-{subset}.csv", index=False)
 
 
-for name, subset in [("liar", None)]:
-    ds = load_dataset(name, subset)
-    df = (pd.concat([
-        ds['train'].to_pandas()[['statement', 'subject']].assign(split="train"),
-        ds['validation'].to_pandas()[['statement', 'subject']].assign(split="valid")])
-         .rename(columns={'statement': 'text', 'subject': 'label'}))
-    df.to_csv(f"data/{name}.csv", index=False)
+# for name, subset in [("liar", None)]:
+#     ds = load_dataset(name, subset)
+#     df = (pd.concat([
+#         ds['train'].to_pandas()[['statement', 'subject']].assign(split="train"),
+#         ds['validation'].to_pandas()[['statement', 'subject']].assign(split="valid")])
+#          .rename(columns={'statement': 'text', 'subject': 'label'})
+#          .assign(label=lambda d: d["label"].str.split(",")))
+#     print(df)
+#     df.to_csv(f"data/{name}.csv", index=False)
