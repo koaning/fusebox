@@ -12,6 +12,35 @@ they are likely to appear. There's a proxy in there that's useful, but it's also
 incredibly hard to steer since the system has no actual notion of the meaning of a word.
 It's a preprocessing technique that's very easy to apply, but very hard to trust.
 
+## An Example 
+
+Let's show a quick demo from spaCy. 
+
+```python
+import spacy
+
+nlp = spacy.load("en_core_web_md")  # make sure to use larger package!
+doc1 = nlp("I love python.")
+doc2 = nlp("I hate python.")
+
+# Similarity of two documents
+print(doc1, "<->", doc2, doc1.similarity(doc2))
+
+# Output: 
+# I love python. <-> I hate python. 0.951918946265527
+```
+
+The sentence "I love python" seems to be very similar to "I hate python". This
+seems strange, but it's what you can expect from a system that's trained to predict
+where words might appear in a sentence. The word "hate" and "love" might have 
+an opposite meaning, but you can easily exchange them and the sentence would still
+be grammatically solid. 
+
+There's a lot of information in these pretrained embeddings, but it might not
+be the information that you're interested in.
+
+## What else can we do? 
+
 If I were training a system to detect sentiment in a specific domain, let's say sentiment
 on a particular website, then I'm more interested in a pre-trained system that has been 
 trained on other sentiment tasks in the online domain. That's much better than a system that
@@ -53,7 +82,9 @@ order. That means that I won't handle entity detection tasks for now.
 Another big benefit is that we're also very flexible in terms of datasets that we add. If you're 
 interested in twitter analytics, you can simply only add tasks that do some sort of classification
 on twitter. A big downside of using big pretrained BERT/word2vec models is that they overfit on Wikipedia-esque
-datasources, which may be totally unlike your use-case. It's good to point out that we're still able
+datasources, which may be totally unlike your use-case. You're also able to be more selective in the 
+datasets that you add. You may want to add many small datasets with labels that you trust instead of hoping
+that a 3rd party cares about label quality. It's also good to point out that we're still able
 to add a task that tries to predict the next word in a sequence. That would also just be another task.
 
 Finally, another thing that I like about this approach is that we can try to keep things lightweight. 
