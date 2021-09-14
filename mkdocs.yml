@@ -6,6 +6,7 @@ theme:
 nav:
   - Home: index.md
   - "Day 01: The Big Picture": chapter-01
+  - "Day 02: The Final Layer": chapter-02
 markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
