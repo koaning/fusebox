@@ -19,7 +19,7 @@ Let's show a quick demo from spaCy.
 ```python
 import spacy
 
-nlp = spacy.load("en_core_web_md")  # make sure to use larger package!
+nlp = spacy.load("en_core_web_md")
 doc1 = nlp("I love python.")
 doc2 = nlp("I hate python.")
 
@@ -34,7 +34,7 @@ The sentence "I love python" seems to be very similar to "I hate python". This
 seems strange, but it's what you can expect from a system that's trained to predict
 where words might appear in a sentence. The word "hate" and "love" might have 
 an opposite meaning, but you can easily exchange them and the sentence would still
-be grammatically solid. 
+be grammatically solid. That's why there's a high "similarity" score attached. 
 
 There's a lot of information in these pretrained embeddings, but it might not
 be the information that you're interested in.
