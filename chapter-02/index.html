@@ -1,0 +1,443 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>Day 02: The Final Layer - The Sentence Encoder Diaries</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#day-02-the-final-layer" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="The Sentence Encoder Diaries" class="md-header__button md-logo" aria-label="The Sentence Encoder Diaries" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            The Sentence Encoder Diaries
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Day 02: The Final Layer
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="The Sentence Encoder Diaries" class="md-nav__button md-logo" aria-label="The Sentence Encoder Diaries" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    The Sentence Encoder Diaries
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter-01" class="md-nav__link">
+        Day 01: The Big Picture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="." class="md-nav__link">
+        Day 02: The Final Layer
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#general-classification" class="md-nav__link">
+    General Classification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-starspace-trick" class="md-nav__link">
+    The StarSpace Trick
+  </a>
+  
+    <nav class="md-nav" aria-label="The StarSpace Trick">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classification-tasks" class="md-nav__link">
+    Classification Tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tagging-tasks" class="md-nav__link">
+    Tagging Tasks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-comparison-tasks" class="md-nav__link">
+    Text Comparison Tasks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#details-to-figure-out" class="md-nav__link">
+    Details to Figure Out
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="day-02-the-final-layer">Day 02: The Final Layer</h1>
+<p>In this document I'd like to discuss the logic that went into designing
+the final layer of my architecture. That is to say, the layer that connects
+the embedding output to each task.</p>
+<figure>
+  <img src="big-picture.png" width="100%" />
+  <figcaption>Overview of the architecture idea.</figcaption>
+</figure>
+
+<h2 id="general-classification">General Classification</h2>
+<p>Before explaining what I'd like to do in the final layer of my neural network
+I'd like to motivate it with something that I've always found a bit strange 
+in machine learning. </p>
+<p>Let's say that we're dealing with this classification task.</p>
+<figure>
+  <img src="clf-01.png" width="100%" />
+  <figcaption>Simple two dimension classification task.</figcaption>
+</figure>
+
+<p>If we were to use a logistic regression on this dataset, we may end up with
+decision boundaries that look like below.</p>
+<figure>
+  <img src="clf-02.png" width="100%" />
+  <figcaption>Simple decision boundaries. Arrows point to the label direction.</figcaption>
+</figure>
+
+<p>These decision boundaries are not bad, but they leave us with an awkward side effect. </p>
+<figure>
+  <img src="clf-03.png" width="100%" />
+  <figcaption>Does the purple point belong to the blue class?</figcaption>
+</figure>
+
+<p>If we introduce a new point that's clearly in the "blue zone" but also very clearly
+outside of the "blue cluster", what would we like our embedding engine to learn? Maybe
+it'd be better if we didn't use a final layer that learns labels by separating planes. 
+Maybe it'd be better if we tried to associate a label with an embedding as well! </p>
+<h2 id="the-starspace-trick">The StarSpace Trick</h2>
+<p>What I'm describing here is what I like to call "the starspace trick". It's a 
+trick that's described in the <a href="https://arxiv.org/abs/1709.03856">StarSpace: Embed All The Things!</a>-paper
+which I've seen work very well in Rasa's 
+<a href="https://arxiv.org/pdf/2004.09936.pdf">DIET</a> and <a href="https://arxiv.org/pdf/1910.00486.pdf">TED</a> algorithms. If 
+you're interested in a intuitive deep dive, you may enjoy 
+<a href="https://www.youtube.com/watch?v=ZT3_9Kjx7oI&amp;ab_channel=Rasa">this algorith whiteboard video</a>
+that I made on behalf of Rasa but the short story is as follows:</p>
+<ol>
+<li>You make an embedding for the text but you also create an embedding of the same size for each of the labels. </li>
+<li>You can calculate a similarity between the text embedding and each of the label embeddings. This similarity score can be normalised so that you end up with scores for classification. </li>
+<li>What's cool about this is that your embedded space won't just contain text embeddings. It will also contain label embeddings! This adds a little bit of extra interpretability to the space.</li>
+<li>What's especially cool in our case; we will embed many labels from different tasks! That allows us to varify if we see patterns that we'd expect.</li>
+</ol>
+<p>So let's re-draw our architecture diagrams for different tasks. </p>
+<h3 id="classification-tasks">Classification Tasks</h3>
+<figure>
+  <img src="text-label.png" width="100%" />
+  <figcaption>Labels are encoded as embeddings too.</figcaption>
+</figure>
+
+<p>The idea is to take our text embedding and to compare it against a label embedding. 
+The embedding for the correct label needs to have a high similarity while the 
+embeddings for the incorrect labels should all have a low similary. That's the 
+pattern that our network should learn. If we get that right, we've got a classifier
+that's using the StarSpace trick.</p>
+<h3 id="tagging-tasks">Tagging Tasks</h3>
+<figure>
+  <img src="text-tag.png" width="100%" />
+  <figcaption>Tags can be encoded as one-off embeddings.</figcaption>
+</figure>
+
+<p>Classification imples that there is only one correct class per text. Many tasks 
+fit this scenario, but it doesn't really fit the "tagging" usecase. You could
+also associate a single text with many tags. For example, a piece of text may
+contain both "gratitude" and "relief" at the same time. </p>
+<p>To handle the "tagging" use-case we can make a small variation on the classification
+use-case. We simply take each possible tag, and each tag is treated as a binary
+classification problem.</p>
+<h3 id="text-comparison-tasks">Text Comparison Tasks</h3>
+<figure>
+  <img src="text-text.png" width="100%" />
+  <figcaption>Top might be a question, bottom could be an answer.</figcaption>
+</figure>
+
+<p>After thinking about it, we may also use this trick to associate texts with eachother. 
+If we take a question/answering dataset we can try to predict if a certain question
+is answered by a certain answer. We wouldn't encode a label anymore, but we would again
+be able to compare two embeddings by using "similarity" again. We can sample
+examples of question/answer pairs that are not related (call these negative samples). 
+The would need to have a low similarity while the actual question/answer pair should have
+a high similarity.</p>
+<p>This trick isn't limited to question/answer pairs though. We may also encode text in
+a conversation between two people with this route. A positive label would indicate two
+texts happen in sequence while negative labels would indicate they don't.</p>
+<h2 id="details-to-figure-out">Details to Figure Out</h2>
+<p>I've explained here why I'll be building the architecture in a certain way but I 
+want to acknolwedge there's lots of numeric details to get right. To keep things
+simple I'll likely focus on the classification/tagging tasks first before I consider
+the text comparison tasks. </p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.409db549.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>

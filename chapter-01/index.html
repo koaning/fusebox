@@ -1,0 +1,449 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.6">
+    
+    
+      
+        <title>Day 01: The Big Picture - The Sentence Encoder Diaries</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.802231af.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#day-01-the-big-picture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="The Sentence Encoder Diaries" class="md-header__button md-logo" aria-label="The Sentence Encoder Diaries" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            The Sentence Encoder Diaries
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Day 01: The Big Picture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="The Sentence Encoder Diaries" class="md-nav__button md-logo" aria-label="The Sentence Encoder Diaries" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    The Sentence Encoder Diaries
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="." class="md-nav__link">
+        Day 01: The Big Picture
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter-02" class="md-nav__link">
+        Day 02: The Final Layer
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-ball-got-rolling" class="md-nav__link">
+    How the ball got rolling.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#an-example" class="md-nav__link">
+    An Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-else-can-we-do" class="md-nav__link">
+    What else can we do?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits" class="md-nav__link">
+    Benefits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions" class="md-nav__link">
+    Open Questions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#up-next" class="md-nav__link">
+    Up Next
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="day-01-the-big-picture">Day 01: The Big Picture</h1>
+<h2 id="how-the-ball-got-rolling">How the ball got rolling.</h2>
+<p>Tools like word2vec and BERT have proven to be useful. You didn't need labelled
+data because you could just use the word-order as a pattern to learn. It idea 
+became very popular and it turned out to be a reasonable pre-processing technique. </p>
+<p>I was wondering if these systems are really training a signal that I'm interested in though. 
+Both systems don't really learn the meaning of a word, they merely predict in what order
+they are likely to appear. There's a proxy in there that's useful, but it's also
+incredibly hard to steer since the system has no actual notion of the meaning of a word.
+It's a preprocessing technique that's very easy to apply, but very hard to trust.</p>
+<h2 id="an-example">An Example</h2>
+<p>Let's show a quick demo from spaCy. </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">spacy</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;en_core_web_md&quot;</span><span class="p">)</span>
+<span class="n">doc1</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;I love python.&quot;</span><span class="p">)</span>
+<span class="n">doc2</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;I hate python.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Similarity of two documents</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc1</span><span class="p">,</span> <span class="s2">&quot;&lt;-&gt;&quot;</span><span class="p">,</span> <span class="n">doc2</span><span class="p">,</span> <span class="n">doc1</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="n">doc2</span><span class="p">))</span>
+
+<span class="c1"># Output: </span>
+<span class="c1"># I love python. &lt;-&gt; I hate python. 0.951918946265527</span>
+</code></pre></div>
+<p>The sentence "I love python" seems to be very similar to "I hate python". This
+seems strange, but it's what you can expect from a system that's trained to predict
+where words might appear in a sentence. The word "hate" and "love" might have 
+an opposite meaning, but you can easily exchange them and the sentence would still
+be grammatically solid. That's why there's a high "similarity" score attached. </p>
+<p>There's a lot of information in these pretrained embeddings, but it might not
+be the information that you're interested in.</p>
+<h2 id="what-else-can-we-do">What else can we do?</h2>
+<p>If I were training a system to detect sentiment in a specific domain, let's say sentiment
+on a particular website, then I'm more interested in a pre-trained system that has been 
+trained on other sentiment tasks in the online domain. That's much better than a system that
+can predict the next word on Wikipedia. </p>
+<p>What I'm after, I think, is a system that looks more like this: </p>
+<figure>
+  <img src="big-picture.png" width="100%" />
+  <figcaption>Overview of an architecture.</figcaption>
+</figure>
+
+<p>The idea is to have a system that is able to learn on multiple tasks. Each task represents
+a labelled dataset that contains a specific signal that you're interested in. By adding many of them 
+you may just get a very general embedding that's able to handle tasks that are similar to the main
+task that you're interested in. In the case of online sentiment, you can try to fetch other online
+sentiment datasets as a proxy.</p>
+<figure>
+  <img src="update.png" width="100%" />
+  <figcaption>Multiple tasks will push the embeddings in different directions.</figcaption>
+</figure>
+
+<p>What's especially nice about this architecture is that it should be relatively easy to, after finetuning, 
+add the main task that you're interested in. It is, after all, just another task. </p>
+<figure>
+  <img src="main-task.png" width="100%" />
+  <figcaption>Adding a main task, to finetune towards, after pre-training is done.</figcaption>
+</figure>
+
+<h2 id="benefits">Benefits</h2>
+<p>There's a lot about this architecture diagram that I like. We seem to be very flexible in the tasks t
+hat we add. We can add classification tasks, tagging tasks or even question answering tasks. To keep 
+things simple though, I'll only consider architectures that embed an entire sentence that ignores word
+order. That means that I won't handle entity detection tasks for now.</p>
+<p>Another big benefit is that we're also very flexible in terms of datasets that we add. If you're 
+interested in twitter analytics, you can simply only add tasks that do some sort of classification
+on twitter. A big downside of using big pretrained BERT/word2vec models is that they overfit on Wikipedia-esque
+datasources, which may be totally unlike your use-case. You're also able to be more selective in the 
+datasets that you add. You may want to add many small datasets with labels that you trust instead of hoping
+that a 3rd party cares about label quality. It's also good to point out that we're still able
+to add a task that tries to predict the next word in a sequence. That would also just be another task.</p>
+<p>Finally, another thing that I like about this approach is that we can try to keep things lightweight. 
+I'll likely use keras for this project, but by keeping the embedding layers at bay as well as the tasks
+I should be able to build something that can train/predict on commodity hardware.</p>
+<h2 id="open-questions">Open Questions</h2>
+<p>There's plenty of open questions that I'll need to tackle though. </p>
+<ol>
+<li>How do you train on multiple tasks effectively? How can I make sure that we don't forget what
+we learned from a batch of data from task 1 by the time that we reach task X? Can I prevent that
+we overfit on tasks that have a larger dataset attached?</li>
+<li>Can we do something clever with the tokeniser? It'd be nice if we can easily swap parts so that
+we can rely on subword tokens so that we're robust against spelling. It'd also be grand if we could
+use a trick that prevents our vocabulary from blowing up (hint: there is one).</li>
+<li>If we want to keep this system lightweight we cannot use the <code>.fit().predict()</code>-API since it 
+will require us to have all the data in memory. Instead, we may want to fall back to the <code>.fit_partial().predict()</code> API 
+that's also commonly use in <a href="https://vowpalwabbit.org/">vowpal wabbit</a> and <a href="https://spacy.io/">spaCy</a>.</li>
+<li>What architecture decisions will make sense when we're interested in training embeddings? During the pre-training
+phase we may care more about a generally useful representation than an accuracy number. But this won't be the case 
+when we actually go to our fine-tunable tasks. </li>
+<li>How can we keep everything lightweight? On my end it's a hard constraint that this system
+needs to be trainable on a CPU first and a GPU second. </li>
+<li>Can we really trust labels in our tasks? Generally, <a href="https://koaning.io/posts/labels/">the answer is no</a>. 
+Instead of resorting to blind trust, it'd also be nice if we had a system that does some active learning and 
+could tell us when there's some examples in a tasks that deserve double-checking. </li>
+<li>Can we prevent big grids? Grid-Search tends to be a distraction, especially <a href="https://koaning.io/posts/oops-and-optimality/">when grids get big</a>.
+I'd love to spend less time doing grid-search and more time investigating my data. 
+It'd therefore be very preferable if we came up with something that's relatively general and 
+doesn't require the tuning of many parameters. It's fine if we allow customisation, but it needs to be
+clear upfront what the effect of a change might be.</li>
+<li>Google once made a system that does pretty much what I'm describing called the <a href="https://tfhub.dev/google/universal-sentence-encoder/4">"Universal Sentence Encoder"</a>. 
+They released pretrained models, but they never released the system that allows you to train your own. One
+could wonder, is there a good reason for this? It may be very hard to train such a system.</li>
+</ol>
+<h2 id="up-next">Up Next</h2>
+<p>I'm pretty excited about this work. It feels both like a great idea, while also feeling
+like I have <a href="https://youtu.be/8pTEmbeENF4?t=1741">no idea what I'm doing</a>. In a good way. This combination usually leads me to learn many things. </p>
+<p>I hope it will be interesting to other folks too. So I'll add a chapter whenever I reach a new 
+milestone.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.409db549.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.756773cc.min.js"></script>
+      
+    
+  </body>
+</html>
