@@ -242,8 +242,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#general-classification" class="md-nav__link">
-    General Classification
+  <a href="#how-do-blobs-become-blobs" class="md-nav__link">
+    How do Blobs Become Blobs?
   </a>
   
 </li>
@@ -311,40 +311,49 @@ the embedding output to each task.</p>
   <figcaption>Overview of the architecture idea.</figcaption>
 </figure>
 
-<h2 id="general-classification">General Classification</h2>
-<p>Before explaining what I'd like to do in the final layer of my neural network
-I'd like to motivate it with something that I've always found a bit strange 
-in machine learning. </p>
-<p>Let's say that we're dealing with this classification task.</p>
+<h2 id="how-do-blobs-become-blobs">How do Blobs Become Blobs?</h2>
+<p>Before explaining what I'd like to do in the final layer of my neural network I'd like to motivate it with a drawing.</p>
+<p>Let's say that we're interested in getting embeddings that have clustered points that are similar. We'd maybe like to have something like below.</p>
 <figure>
   <img src="clf-01.png" width="100%" />
-  <figcaption>Simple two dimension classification task.</figcaption>
+  <figcaption>Simple two dimensional blobs.</figcaption>
 </figure>
 
-<p>If we were to use a logistic regression on this dataset, we may end up with
-decision boundaries that look like below.</p>
+<p>But how might we get embeddings with such a shape? If we had 
+a "logistic regression"-style layer that connects the 
+embedding layer with a task then we may get an embedded space
+like below.</p>
 <figure>
-  <img src="clf-02.png" width="100%" />
-  <figcaption>Simple decision boundaries. Arrows point to the label direction.</figcaption>
+  <img src="clf-boundaries.png" width="100%" />
+  <figcaption>Decision boundaries and associated points.</figcaption>
 </figure>
 
-<p>These decision boundaries are not bad, but they leave us with an awkward side effect. </p>
+<p>My drawing is likely an exaggeration but it's showing that we
+can classify to our hearts content without actually generating 
+blobs of clusters. Instead, we may be generating points that are merely linearly
+separated. </p>
+<p>If we're interested in creating an embedded space, do we <em>really</em>  want to construct it via a final layer that learns labels by 
+separating planes? Maybe it'd be better if we tried to associate a label with an embedding as well.</p>
 <figure>
-  <img src="clf-03.png" width="100%" />
-  <figcaption>Does the purple point belong to the blue class?</figcaption>
+  <img src="alternative.png" width="100%" />
+  <figcaption>Maybe we can embed the labels too.</figcaption>
 </figure>
 
-<p>If we introduce a new point that's clearly in the "blue zone" but also very clearly
-outside of the "blue cluster", what would we like our embedding engine to learn? Maybe
-it'd be better if we didn't use a final layer that learns labels by separating planes. 
-Maybe it'd be better if we tried to associate a label with an embedding as well! </p>
+<p>When we embed the labels in the same space at the text we're still
+able to learn a classifier, but it'd be based on the distance 
+(or similarity) between the label embedding and the text embedding.
+That means that every label from every task would be represented
+in the same space as the text and will be pushing and pulling text
+embeddings into appropriate clusters. </p>
 <h2 id="the-starspace-trick">The StarSpace Trick</h2>
-<p>What I'm describing here is what I like to call "the starspace trick". It's a 
-trick that's described in the <a href="https://arxiv.org/abs/1709.03856">StarSpace: Embed All The Things!</a>-paper
+<p>What I'm describing here is what I like to call "the starspace trick". 
+It's a trick that's described in the 
+<a href="https://arxiv.org/abs/1709.03856">StarSpace: Embed All The Things!</a>-paper
 which I've seen work very well in Rasa's 
-<a href="https://arxiv.org/pdf/2004.09936.pdf">DIET</a> and <a href="https://arxiv.org/pdf/1910.00486.pdf">TED</a> algorithms. If 
+<a href="https://arxiv.org/pdf/2004.09936.pdf">DIET</a> and 
+<a href="https://arxiv.org/pdf/1910.00486.pdf">TED</a> algorithms. If 
 you're interested in a intuitive deep dive, you may enjoy 
-<a href="https://www.youtube.com/watch?v=ZT3_9Kjx7oI&amp;ab_channel=Rasa">this algorith whiteboard video</a>
+<a href="https://www.youtube.com/watch?v=ZT3_9Kjx7oI&amp;ab_channel=Rasa">this video</a>
 that I made on behalf of Rasa but the short story is as follows:</p>
 <ol>
 <li>You make an embedding for the text but you also create an embedding of the same size for each of the labels. </li>
